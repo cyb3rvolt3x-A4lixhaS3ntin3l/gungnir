@@ -1,3 +1,5 @@
+> **Mirror note (2026-09-22):** Active Sentinel Suite hunt package work is in [`sentinel-suite`](https://github.com/cyb3rvolt3x-A4lixhaS3ntin3l/sentinel-suite) (`packages/gungnir`). This repo stays for historical CLI / prior releases.
+
 # Stranger path: lab → install gungnir → hunt
 
 End-to-end path for someone who has never used GUNGNIR: stand up the local Juice Shop lab, install the host CLI, run an allowlisted hunt, and read the results.
