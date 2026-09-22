@@ -24,6 +24,7 @@ class Finding:
     url: str = ""
     confidence: float = 0.5
     verified: bool = False
+    verification_status: str = "unverified"  # confirmed|not_reproduced|unverified|skipped
     extra: dict = field(default_factory=dict)
 
     @property

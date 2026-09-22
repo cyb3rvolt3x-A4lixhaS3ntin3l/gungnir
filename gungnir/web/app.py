@@ -470,10 +470,11 @@ async def _run_hunt_task(run_id: str, req: HuntRequest, target: str, target_type
         findings = prioritize(findings, chains)
         chains = prioritize_chains(chains)
 
-        # Verify
+        # Verify (scope-gated when a brief was provided on the hunt request)
         if not req.no_verify and state.config.verify_criticals:
             await on_progress("verify", "re-testing criticals...")
-            findings = await verify_criticals(findings)
+            scope_obj = parse_brief(req.scope) if getattr(req, "scope", None) else None
+            findings = await verify_criticals(findings, scope=scope_obj)
 
         # Save
         await on_progress("save", "persisting to SQLite...")
@@ -522,10 +523,13 @@ async def _run_hunt_task(run_id: str, req: HuntRequest, target: str, target_type
 
 
 def _finding_to_dict(f) -> dict:
+    status = getattr(f, "verification_status", None) or "unverified"
     return {"title": f.title, "severity": f.severity.value, "asset": f.asset,
             "source": f.source, "type": f.finding_type, "description": f.description,
             "evidence": f.evidence, "url": f.url, "confidence": f.confidence,
-            "verified": f.verified, "extra": f.extra}
+            "verified": bool(f.verified),
+            "verification": status,
+            "extra": f.extra}
 
 
 def _chain_to_dict(ch) -> dict:

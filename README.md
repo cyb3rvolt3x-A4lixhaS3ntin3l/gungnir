@@ -7,7 +7,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-4.0.0-orange.svg)]()
-[![Tests](https://img.shields.io/badge/tests-134%20passing-green.svg)]()
+[![Tests](https://img.shields.io/badge/tests-150%2B%20passing-green.svg)]()
 
 **Created by [Syed Zada Abrar](https://andraxpentester.in)** — Certified Penetration Tester & Security Researcher
 
@@ -221,8 +221,11 @@ gungnir pipelines show <name>
 gungnir scope --brief brief.txt --target example.com
 gungnir history <target>
 gungnir auth setup
-gungnir serve [--host 0.0.0.0] [--port 8888]
+gungnir serve [--host 127.0.0.1] [--port 8888]
 ```
+
+Default serve bind is **127.0.0.1**. Use `--host 0.0.0.0` only as an explicit opt-in when you intentionally expose the UI on all interfaces.
+
 
 ## Target Types
 
@@ -307,7 +310,7 @@ GUNGNIR is for **authorized security testing only**. Always:
 
 ## 📊 Statistics
 
-- **134 passing tests**
+- **150+ passing tests**
 - **68 Python source files**
 - **13,120 lines of code**
 - **8 native security modules**

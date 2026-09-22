@@ -217,10 +217,10 @@ async def _cmd_hunt(args) -> int:
     findings = prioritize(findings, chains)
     chains = prioritize_chains(chains)
 
-    # Verify criticals
+    # Verify criticals (scope-gated retest when a brief was provided)
     if not args.no_verify and config.verify_criticals:
         print(f"  {c('[verify]', Colors.YELLOW)} Re-testing {sum(1 for f in findings if f.severity in (Severity.CRITICAL, Severity.HIGH))} critical/high findings...")
-        findings = await verify_criticals(findings)
+        findings = await verify_criticals(findings, scope=scope)
 
     # Convert findings to dicts for storage
     findings_dicts = [_finding_to_dict(f) for f in findings]
@@ -332,11 +332,14 @@ def _print_results(findings, chains, diff, scan_result):
 
 
 def _finding_to_dict(f: Finding) -> dict:
+    status = getattr(f, "verification_status", None) or "unverified"
     return {
         "title": f.title, "severity": f.severity.value, "asset": f.asset,
         "source": f.source, "type": f.finding_type, "description": f.description,
         "evidence": f.evidence, "url": f.url, "confidence": f.confidence,
-        "verified": f.verified, "extra": f.extra,
+        "verified": bool(f.verified),
+        "verification": status,
+        "extra": f.extra,
     }
 
 
