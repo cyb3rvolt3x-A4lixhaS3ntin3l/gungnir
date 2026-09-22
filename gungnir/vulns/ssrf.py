@@ -112,12 +112,12 @@ class SsrfHelper:
         """
         indicators: List[str] = []
         # IPv4
-        for m in re.finditer(r"\\b(\\d{1,3}\\.){3}\\d{1,3}\\b", body):
+        for m in re.finditer(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", body):
             ip = m.group(0)
             if _is_private_ip(ip):
                 indicators.append(f"private_ip:{ip}")
         # Internal hostnames
-        for m in re.finditer(r"\\b(localhost|.*\\.internal|.*\\.local|metadata\\..*)\\b", body):
+        for m in re.finditer(r"\b(localhost|[\\w.-]+\\.internal|[\\w.-]+\\.local|metadata\\.[\\w.-]+)\\b", body, re.IGNORECASE):
             indicators.append(f"internal_host:{m.group(0)}")
         # Cloud metadata give-aways
         for kw in ["ami-id", "instance-id", "security-credentials",

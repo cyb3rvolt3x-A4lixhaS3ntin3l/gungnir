@@ -41,8 +41,11 @@ Most security tools run sequentially — one tool after another — producing ra
 ## Quick Start
 
 ```bash
-# Install
-pip install gungnir-security
+# Install from source
+git clone https://github.com/cyb3rvolt3x-A4lixhaS3ntin3l/gungnir.git
+cd gungnir
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e .
 
 # Set up authentication (for web UI)
 gungnir auth setup
@@ -51,9 +54,11 @@ gungnir auth setup
 gungnir serve
 # → Web UI at http://localhost:8888
 
-# Or use CLI directly
+# Or use CLI on a target you are authorized to assess
 gungnir hunt example.com --scope brief.txt --json results.json --report report.md
 ```
+
+Authorized / written-scope targets only. Local Juice Shop lab: [gungnir-lab](https://github.com/cyb3rvolt3x-A4lixhaS3ntin3l/gungnir-lab).
 
 ## Features
 

@@ -73,7 +73,7 @@ class TestExpressionEvaluator:
 
     def test_empty_state_is_tolerant(self):
         ev = ExpressionEvaluator({}, strict=False)
-        assert not self.ev.eval("tech contains 'wordpress' AND live_hosts.count > 0")
+        assert not ev.eval("tech contains 'wordpress' AND live_hosts.count > 0")
         # count of missing -> 0
         assert ev.eval("findings.count == 0")
 

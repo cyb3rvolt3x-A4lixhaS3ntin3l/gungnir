@@ -139,7 +139,7 @@ def _build_scope(in_list: List[str], out_list: List[str]) -> Scope:
     )
 
 
-_SECTION_RE = re.compile(r"^(in_scope|out_of_scope)\\s*:\\s*$", re.IGNORECASE)
+_SECTION_RE = re.compile(r"^(in_scope|out_of_scope)\s*:\s*$", re.IGNORECASE)
 
 
 def parse_brief(text: str) -> Scope:
@@ -178,7 +178,7 @@ def parse_brief(text: str) -> Scope:
             current = m.group(1).lower()
             continue
         # strip leading "- " bullet
-        item = re.sub(r"^-\\s*", "", line)
+        item = re.sub(r"^-\s*", "", line)
         if current == "in_scope":
             in_list.append(item)
         elif current == "out_of_scope":
