@@ -60,7 +60,7 @@ gungnir hunt example.com --scope brief.txt --json results.json --report report.m
 
 Authorized / written-scope targets only. Local Juice Shop lab: [gungnir-lab](https://github.com/cyb3rvolt3x-A4lixhaS3ntin3l/gungnir-lab). New here? Follow the [stranger path](docs/STRANGER_PATH.md) (lab → install → hunt).
 
-> **Legacy note:** The `bugforge/` package is a thin compatibility alias for older `python -m bugforge` invocations (e.g. remote CI). Prefer the `gungnir` console script / `python -m gungnir`. Do not treat `bugforge` as the primary product.
+> **Legacy note:** The `bugforge/` package is a legacy compatibility shim expanding toward `gungnir` (cli, verify, vulns, P1 recon/native re-exports). Prefer the `gungnir` console script / `python -m gungnir`. Do not treat `bugforge` as the primary product.
 
 ## Features
 
