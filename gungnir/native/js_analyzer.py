@@ -15,26 +15,26 @@ log = get_logger()
 
 # Patterns for extracting interesting things from JS
 API_ROUTE_PATTERNS = [
-    r'''["'`](/api/[a-zA-Z0-9/_\\-{}]+)["'`]''',
-    r'''["'`](/v[0-9]+/[a-zA-Z0-9/_\\-{}]+)["'`]''',
-    r'''fetch\\(["'`]([^"'`]+)["'`]''',
-    r'''axios\\.[a-z]+\\(["'`]([^"'`]+)["'`]''',
-    r'''\\$\\.ajax\\(\\{[^}]*url:\\s*["'`]([^"'`]+)["'`]''',
-    r'''XMLHttpRequest[^}]*open\\(["'`][^"'`]+["'`],\\s*["'`]([^"'`]+)["'`]''',
+    r'''["'`](/api/[a-zA-Z0-9/_\-{}]+)["'`]''',
+    r'''["'`](/v[0-9]+/[a-zA-Z0-9/_\-{}]+)["'`]''',
+    r'''fetch\(["'`]([^"'`]+)["'`]''',
+    r'''axios\.[a-z]+\(["'`]([^"'`]+)["'`]''',
+    r'''\$\.ajax\(\{[^}]*url:\s*["'`]([^"'`]+)["'`]''',
+    r'''XMLHttpRequest[^}]*open\(["'`][^"'`]+["'`],\s*["'`]([^"'`]+)["'`]''',
 ]
 
 PARAM_PATTERNS = [
-    r'''["'`](\\w+)=["'`]''',  # query params in strings
-    r'''params:\\s*\\{([^}]+)\\}''',  # params object
+    r'''["'`](\w+)=["'`]''',  # query params in strings
+    r'''params:\s*\{([^}]+)\}''',  # params object
 ]
 
 SECRET_PATTERNS = [
     (r'A' + r'KIA[0-9A-Z]{16}', "aws_key"),
     (r'g' + r'hp_[0-9A-Za-z]{36}', "github_token"),
-    (r'A' + r'Iza[0-9A-Za-z_\\-]{35}', "google_api_key"),
+    (r'A' + r'Iza[0-9A-Za-z_\-]{35}', "google_api_key"),
     (r's' + r'k_live_[0-9A-Za-z]{24,}', "stripe_key"),
-    (r'eyJ[A-Za-z0-9_\\-]+\\.eyJ[A-Za-z0-9_\\-]+\\.[A-Za-z0-9_\\-]+', "jwt"),
-    (r'["\\'](?:api[_-]?key|secret|token|password)["\\']\\s*[:=]\\s*["\\']([^"\\']{16,})["\\']', "generic_secret"),
+    (r'eyJ[A-Za-z0-9_\-]+\.eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+', "jwt"),
+    (r'["\'](?:api[_-]?key|secret|token|password)["\']\s*[:=]\s*["\']([^"\']{16,})["\']', "generic_secret"),
 ]
 
 
@@ -148,11 +148,11 @@ def _extract_js_urls(html: str, base_url: str) -> List[str]:
     """Extract JS file URLs from HTML."""
     urls = []
     # <script src="...">
-    for m in re.finditer(r'<script[^>]+src=["\\']([^"\\']+)["\\']', html, re.IGNORECASE):
+    for m in re.finditer(r'<script[^>]+src=["\']([^"\']+)["\']', html, re.IGNORECASE):
         src = m.group(1)
         urls.append(_resolve_url(src, base_url))
     # Also look for inline references to .js files
-    for m in re.finditer(r'["\\']([^"\\']+\\.js)["\\']', html):
+    for m in re.finditer(r'["\']([^"\']+\.js)["\']', html):
         src = m.group(1)
         if not src.startswith("http"):
             urls.append(_resolve_url(src, base_url))

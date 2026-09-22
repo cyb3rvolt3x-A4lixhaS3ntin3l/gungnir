@@ -64,3 +64,13 @@ def test_dedup_across_sources():
     names = [r.name for r in results]
     assert names.count("dup.example.com") == 1
     assert "other.example.com" in names
+
+
+def test_rapiddns_extracts_literal_dot_subdomains():
+    """P1: rapiddns scraper must match host.example.com (literal dot)."""
+    enum = SubdomainEnum()
+    html = "<a>api.example.com</a> <td>cdn.example.com</td> ignore exampleXcom"
+    with patch.object(enum.client, "get", return_value=_mock_response(html)):
+        found = enum._rapiddns("example.com")
+    assert "api.example.com" in found
+    assert "cdn.example.com" in found

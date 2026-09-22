@@ -1,4 +1,4 @@
-from bugforge.vulns.secrets import SecretScanner
+from gungnir.vulns.secrets import SecretScanner
 
 
 def test_detect_aws_key():
@@ -71,3 +71,53 @@ def test_custom_pattern():
     scanner = SecretScanner(extra_patterns=[("custom", r"MYSPECIAL-[0-9]{6}")])
     matches = scanner.scan("found MYSPECIAL-123456 in config")
     assert any(m.type == "custom" for m in matches)
+
+
+# --- P1 regression: raw-string double-escape fixes ---
+
+def test_detect_s3_bucket_url_literal_dot():
+    """aws_s3_bucket_url must match literal dots, not backslash-dot."""
+    scanner = SecretScanner()
+    body = "cdn https://my-bucket.s3.us-east-1.amazonaws.com/obj"
+    assert any(m.type == "aws_s3_bucket_url" for m in scanner.scan(body))
+
+
+def test_detect_slack_webhook_literal_dot():
+    scanner = SecretScanner()
+    # Assemble at runtime so the source never contains a contiguous webhook-shaped literal
+    # (GitHub push protection flags those even in fixtures).
+    host = "hooks." + "slack" + ".com"
+    team, channel, token = "T00TEST00", "B00TEST00", "x" * 24
+    body = f"https://{host}/services/{team}/{channel}/{token}"
+    assert any(m.type == "slack_webhook" for m in scanner.scan(body))
+
+
+def test_detect_db_connection_with_whitespace_stop():
+    """db_connection must stop at whitespace (P1 raw-string whitespace-class fix)."""
+    scanner = SecretScanner()
+    body = "uri=postgres://user:pass@db.internal:5432/app next"
+    matches = [m for m in scanner.scan(body) if m.type == "db_connection"]
+    assert matches
+    assert " " not in matches[0].value
+    assert matches[0].value.startswith("postgres://")
+
+
+def test_detect_bearer_token_whitespace():
+    scanner = SecretScanner()
+    body = "Authorization: Bearer abcdefghijklmnopqrstuvwxyz0123"
+    assert any(m.type == "bearer_token" for m in scanner.scan(body))
+
+
+def test_detect_firebase_and_gcp_oauth_dots():
+    scanner = SecretScanner()
+    body = "https://demo-app.firebaseio.com token=ya29.a0AfH6SMB_oauth_token_value_xx"
+    types = {m.type for m in scanner.scan(body)}
+    assert "firebase_url" in types
+    assert "gcp_oauth" in types
+
+
+def test_detect_sendgrid_key_dots():
+    scanner = SecretScanner()
+    # 22 + 43 char segments required by pattern
+    body = "SG." + ("a" * 22) + "." + ("b" * 43)
+    assert any(m.type == "sendgrid_key" for m in scanner.scan(body))

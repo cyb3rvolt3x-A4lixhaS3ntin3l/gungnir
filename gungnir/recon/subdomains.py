@@ -95,7 +95,7 @@ class SubdomainEnum:
         if not r.text:
             return []
         # crude: grab <a> text that looks like subdomains
-        return re.findall(r"[a-zA-Z0-9_.-]+\\." + re.escape(domain), r.text)
+        return re.findall(r"[a-zA-Z0-9_.-]+\." + re.escape(domain), r.text)
 
     def _wayback(self, domain: str) -> List[str]:
         url = (f"https://web.archive.org/cdx/search/cdx?url=*.{domain}/*"

@@ -20,8 +20,8 @@ HEADER_SIGNS = [
     ("server", r"cloudflare", "Cloudflare"),
     ("x-powered-by", r"Express", "Express.js"),
     ("x-powered-by", r"PHP", "PHP"),
-    ("x-powered-by", r"ASP\\.NET", "ASP.NET"),
-    ("x-powered-by", r"Next\\.js", "Next.js"),
+    ("x-powered-by", r"ASP\.NET", "ASP.NET"),
+    ("x-powered-by", r"Next\.js", "Next.js"),
     ("x-aspnet-version", r".+", "ASP.NET"),
     ("x-generator", r"Drupal", "Drupal"),
     ("x-generator", r"WordPress", "WordPress"),
@@ -29,10 +29,10 @@ HEADER_SIGNS = [
     ("x-served-by", r"cache-", "Fastly"),
     ("set-cookie", r"sessionid", "Django (sessionid)"),
     ("set-cookie", r"laravel_session", "Laravel"),
-    ("set-cookie", r"connect\\.sid", "Express.js (connect.sid)"),
+    ("set-cookie", r"connect\.sid", "Express.js (connect.sid)"),
     ("set-cookie", r"wp-settings", "WordPress"),
     ("set-cookie", r"JSESSIONID", "Java Servlet"),
-    ("set-cookie", r"ASP\\.NET_SessionId", "ASP.NET"),
+    ("set-cookie", r"ASP\.NET_SessionId", "ASP.NET"),
 ]
 
 # Body regex -> technology
@@ -43,11 +43,11 @@ BODY_SIGNS = [
     (r"__next_data__", "Next.js"),
     (r"data-reactroot", "React"),
     (r"ng-version=\"([0-9.]+)\"", "Angular"),
-    (r"vue\\.js", "Vue.js"),
+    (r"vue\.js", "Vue.js"),
     (r"/static/django", "Django"),
     (r"laravel", "Laravel"),
     (r"<title>Index of /", "Apache directory listing"),
-    (r"cdn\\.jsdelivr\\.net", "jsDelivr CDN"),
+    (r"cdn\.jsdelivr\.net", "jsDelivr CDN"),
     (r"cloudflare", "Cloudflare"),
 ]
 

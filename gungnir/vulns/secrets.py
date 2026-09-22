@@ -25,43 +25,43 @@ SECRET_PATTERNS: List[tuple[str, str]] = [
     # AWS
     ("aws_access_key_id", r"A" + r"KIA[0-9A-Z]{16}"),
     ("aws_secret_key", r"(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])"),
-    ("aws_s3_bucket_url", r"https?://[a-z0-9.-]*\\.s3[a-z0-9.-]*\\.amazonaws\\.com"),
+    ("aws_s3_bucket_url", r"https?://[a-z0-9.-]*\.s3[a-z0-9.-]*\.amazonaws\.com"),
     # Google
-    ("google_api_key", r"A" + r"Iza[0-9A-Za-z_\\-]{35}"),
-    ("gcp_oauth", r"ya29\\.[0-9A-Za-z_\\-]+"),
+    ("google_api_key", r"A" + r"Iza[0-9A-Za-z_\-]{35}"),
+    ("gcp_oauth", r"ya29\.[0-9A-Za-z_\-]+"),
     # GitHub
     ("github_token", r"gh[pousr]_[0-9A-Za-z]{36,}"),
     ("github_pat", r"github_pat_[0-9A-Za-z_]{22}_[0-9A-Za-z_]{59}"),
     ("github_oauth", r"gho_[0-9A-Za-z]{36}"),
     # Slack
     ("slack_token", r"xox[baprs]-[0-9A-Za-z-]{10,}"),
-    ("slack_webhook", r"https://hooks\\.slack\\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/[A-Za-z0-9]+"),
+    ("slack_webhook", r"https://hooks\.slack\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/[A-Za-z0-9]+"),
     # Stripe
     ("stripe_live_key", r"s" + r"k_live_[0-9A-Za-z]{24,}"),
     ("stripe_test_key", r"sk_test_[0-9A-Za-z]{24,}"),
     # Twilio
     ("twilio_sid", r"AC[a-z0-9]{32}"),
     # JWT
-    ("jwt", r"eyJ[A-Za-z0-9_\\-]+\\.eyJ[A-Za-z0-9_\\-]+\\.[A-Za-z0-9_\\-]+"),
+    ("jwt", r"eyJ[A-Za-z0-9_\-]+\.eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+"),
     # Private keys
     ("private_key_rsa", r"-----BEGIN (RSA|EC|OPENSSH|PRIVATE) [A-Z ]*KEY-----"),
     # Database connection strings
-    ("db_connection", r"(mongodb|postgres|postgresql|mysql|redis)://[^\\s'\"<>]+"),
+    ("db_connection", r"(mongodb|postgres|postgresql|mysql|redis)://[^\s'\"<>]+"),
     # Generic
-    ("generic_api_key", r"(?i)api[_-]?key['\"\\s:=]+['\"][A-Za-z0-9_\\-]{20,}['\"]"),
-    ("generic_secret", r"(?i)secret['\"\\s:=]+['\"][A-Za-z0-9_\\-]{16,}['\"]"),
-    ("generic_password", r"(?i)(password|passwd|pwd)['\"\\s:=]+['\"][^'\"\\s]{6,}['\"]"),
-    ("bearer_token", r"(?i)bearer\\s+[A-Za-z0-9_\\-\\.]+"),
+    ("generic_api_key", r"(?i)api[_-]?key['\"\s:=]+['\"][A-Za-z0-9_\-]{20,}['\"]"),
+    ("generic_secret", r"(?i)secret['\"\s:=]+['\"][A-Za-z0-9_\-]{16,}['\"]"),
+    ("generic_password", r"(?i)(password|passwd|pwd)['\"\s:=]+['\"][^'\"\s]{6,}['\"]"),
+    ("bearer_token", r"(?i)bearer\s+[A-Za-z0-9_\-\.=]+"),
     # Heroku / SendGrid / Mailgun
     ("heroku_api_key", r"(?i)heroku.{0,20}[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"),
-    ("sendgrid_key", r"SG\\.[A-Za-z0-9_\\-]{22}\\.[A-Za-z0-9_\\-]{43}"),
+    ("sendgrid_key", r"SG\.[A-Za-z0-9_\-]{22}\.[A-Za-z0-9_\-]{43}"),
     ("mailgun_key", r"key-[0-9a-zA-Z]{32}"),
     # Firebase
-    ("firebase_url", r"https?://[a-z0-9-]+\\.firebaseio\\.com"),
+    ("firebase_url", r"https?://[a-z0-9-]+\.firebaseio\.com"),
     # Square
-    ("square_access_token", r"sq0atp-[0-9A-Za-z_\\-]{22}"),
+    ("square_access_token", r"sq0atp-[0-9A-Za-z_\-]{22}"),
     # Cloudflare
-    ("cloudflare_api_key", r"v1\\.0-[0-9a-f]{24}"),
+    ("cloudflare_api_key", r"v1\.0-[0-9a-f]{24}"),
 ]
 
 # Mask these generic types for noise reduction; require keyword nearby

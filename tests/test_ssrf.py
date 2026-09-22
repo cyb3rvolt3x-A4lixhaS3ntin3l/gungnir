@@ -47,3 +47,13 @@ def test_build_url_adds_missing_param():
     helper = SsrfHelper()
     new = helper.build_url("https://api.example.com/fetch", "url", "http://evil")
     assert "url=" in new
+
+
+def test_detect_internal_hostnames():
+    """P1: hostname regex must match foo.internal / metadata.x (not backslash-dot)."""
+    helper = SsrfHelper()
+    body = "upstream=db.prod.internal metadata.google.internal ok"
+    indicators = helper.detect_internal_indicators(body)
+    hosts = [i for i in indicators if i.startswith("internal_host:")]
+    assert any("db.prod.internal" in h for h in hosts)
+    assert any("metadata.google.internal" in h for h in hosts)

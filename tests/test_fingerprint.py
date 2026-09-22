@@ -44,3 +44,26 @@ def test_missing_security_headers_complete():
         "Permissions-Policy": "geolocation=()",
     }
     assert fp.missing_security_headers(full) == []
+
+
+def test_detect_aspnet_and_nextjs_header_dots():
+    """ASP.NET / Next.js signatures must match literal dots (P1 regex fix)."""
+    fp = TechFingerprinter()
+    with patch.object(fp.client, "get", return_value=_resp({
+        "X-Powered-By": "ASP.NET",
+        "Set-Cookie": "ASP.NET_SessionId=abc; connect.sid=xyz",
+    })):
+        res = fp.fingerprint("https://x.com")
+    techs = {t.technology for t in res.technologies}
+    assert "ASP.NET" in techs
+    assert "Express.js (connect.sid)" in techs
+
+
+def test_detect_vue_and_jsdelivr_body_dots():
+    fp = TechFingerprinter()
+    body = '<script src="https://cdn.jsdelivr.net/npm/vue.js"></script>'
+    with patch.object(fp.client, "get", return_value=_resp({}, body)):
+        res = fp.fingerprint("https://x.com")
+    techs = {t.technology for t in res.technologies}
+    assert "Vue.js" in techs
+    assert "jsDelivr CDN" in techs
